@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consinco.WebApi", "Consinco.WebApi\Consinco.WebApi.csproj", "{16F0D901-37CF-4FFF-A34A-C0FB8762101F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consinco.WebApi.Tests", "Consinco.WebApi.Tests\Consinco.WebApi.Tests.csproj", "{B89C506A-73FB-4414-BBA9-996EC467A50C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16F0D901-37CF-4FFF-A34A-C0FB8762101F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16F0D901-37CF-4FFF-A34A-C0FB8762101F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16F0D901-37CF-4FFF-A34A-C0FB8762101F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16F0D901-37CF-4FFF-A34A-C0FB8762101F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89C506A-73FB-4414-BBA9-996EC467A50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89C506A-73FB-4414-BBA9-996EC467A50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89C506A-73FB-4414-BBA9-996EC467A50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89C506A-73FB-4414-BBA9-996EC467A50C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A92AFBC4-7683-4C0A-AC90-04E9A5C656AD}
+	EndGlobalSection
+EndGlobal
