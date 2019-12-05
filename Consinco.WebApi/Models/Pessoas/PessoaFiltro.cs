@@ -1,20 +1,15 @@
-﻿using System.Collections;
+﻿using System;
 
 namespace Consinco.WebApi.Models.Pessoas
 {
     // Classe usada para realizar consultas no banco usando alguns atributos 
     // de pessoa + dados sobre quantidade de registros a devolver
-    public class PessoaFiltro : Pessoa
+    public class PessoaFiltro : FiltroBase
     {
-        public int Pagina { get; set; }
-        public int TamanhoPagina { get; set; }
-        public Hashtable Ordenacoes { get; set; }
-        
-        //inicialize sempre o construtor default caso o client não tenha lhe enviado o dado
-        public PessoaFiltro()
-        {
-            Pagina = 1;
-            TamanhoPagina = 25;
-        }        
+        // declarar apenas os atributos que fazem sentido para realização de condições de pesquisa
+        public string NomeCompleto { get; set; }
+        public string NomeReduzido { get; set; }
+        public string Tipo { get; set; }
+        public DateTime? CadastradoEm { get; set; }               
     }
 }

@@ -44,5 +44,14 @@ namespace Consinco.WebApi.Repositories.Pessoas
         {
             return PaginacaoHelper.Calcular(pagina, tamanhoPagina);
         }
+
+        protected string MontaOrdenacao(IDictionary<string, string> ordenacoes, IDictionary<int, string> alias, string ordenacaoPadrao)
+        {
+            string ret = (ordenacaoPadrao == null ? "" : ordenacaoPadrao)  + ",";
+
+           
+
+            return ret.Substring(0, ret.Length - 1);
+        }
     }
 }

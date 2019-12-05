@@ -21,12 +21,12 @@ namespace Consinco.WebApi.Helpers
                 List<PropertyInfo> properties = objType.GetProperties().ToList();
 
                 string[] ordens = ordenacao.Split(',');
-                for (int i = 0; i < ordens.Length-1; i++)
+                for (int i = 0; i < ordens.Length; i++)
                 {
                     string campo = ordens[i];
                     if (ordens[i].Contains(":"))
                     {
-                        campo = ordens[i].Substring(0, campo.IndexOf(":") - 1);
+                        campo = ordens[i].Substring(0, campo.IndexOf(":"));
                     }
 
                     ret = properties.Where(W => campo.Contains(W.Name)).Any();
@@ -41,22 +41,22 @@ namespace Consinco.WebApi.Helpers
             return ret;
         }
 
-        public static Hashtable ObterOrdenadores(string ordenacao)
+        public static IDictionary<string, string> ObterOrdenadores(string ordenacao)
         {
-            Hashtable ret = new Hashtable();
+            IDictionary<string, string> ret = new Dictionary<string, string>();
             if (ordenacao != null)
             {
                 
                 string[] ordens = ordenacao.Split(',');
-                for (int i = 0; i < ordens.Length-1; i++)
+                for (int i = 0; i < ordens.Length; i++)
                 {
                     string chave = ordens[i];
                     string valor = "asc";
 
                     if (chave.Contains(":"))
                     {
-                        chave = ordens[i].Substring(0, ordens[i].IndexOf(":") - 1);
-                        valor = ordens[i].Substring(ordens[i].IndexOf(":"), ordens[i].Length);
+                        chave = ordens[i].Substring(0, ordens[i].IndexOf(":"));
+                        valor = ordens[i].Substring(ordens[i].IndexOf(":")+1, ordens[i].Length - chave.Length - 1);                        
                     }
 
                     ret.Add(chave, valor);                    

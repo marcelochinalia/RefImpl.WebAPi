@@ -102,6 +102,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Helpers\OrdenacaoHelper.cs" />
+    <Compile Include="Models\FiltroBase.cs" />
     <Compile Include="Services\PessoaService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PessoasController.cs" />
