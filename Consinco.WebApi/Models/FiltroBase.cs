@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Consinco.WebApi.Helpers;
+using System.Collections.Generic;
 
 namespace Consinco.WebApi.Models
 {
@@ -13,6 +14,23 @@ namespace Consinco.WebApi.Models
 
         public int Pagina { get; set; }
         public int TamanhoPagina { get; set; }
-        public IDictionary<string, string> Ordenacoes { get; set; }
+        public string ordenacao { get; set; }
+        
+        public IDictionary<string, string> ObterOrdenacoes()
+        {
+            IDictionary<string, string> ret = null;
+
+            if (ordenacao!= null)
+            {
+                ret = OrdenacaoHelper.ObterOrdenadores(ordenacao);
+            }      
+            
+            if (ret == null)
+            {
+                ret = new Dictionary<string, string>();
+            }
+
+            return ret;
+        }
     }
 }

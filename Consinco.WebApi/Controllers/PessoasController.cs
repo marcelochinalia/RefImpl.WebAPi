@@ -23,69 +23,75 @@ namespace Consinco.WebApi.Controllers.v1
 
         #region anotacoes Swagger para documentacao da api
         /// <summary>
-        /// Retornar uma lista de todas as pessoas por paginação. 
-        /// Informar um número de página (iniciar com 1), definir a quantidade de registros que você quer que retorne (máximo 100). 
-        /// Além disso, você opcionalmente pode solicitar a ordenacao dos dados por um ou mais atributos do JSON (se não informado será ordenado por Id).
-        /// Caso precise na descriminar o tipo de ordenação (ascendente ou descendente), acrescente na frente do atributo ':asc' ou ':desc'.
-        /// 
-        /// URL de Exemplo: 
-        /// http://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&nomecompleto=MARC&tipo=J&ordenacao=nomecompleto:asc,cadastradoem:desc
-        /// 
-        /// Cabeçalho da Request de Exemplo: 
-        /// 
-        /// Body de Exemplo: 
-        /// [não se aplica]
+        /// Retorna uma lista de pessoas.        
         /// </summary>
         /// <remarks>
-        /// Retorna uma lista de todas as pessoas do ERP Acrux Web.
+        /// Para acionar esse método é necessário seguir os seguintes passos para montagem da requisição:
+        /// 1. Cabeçalho do Http Request: 
+        /// 
+        /// 
+        /// 2. Query string (url):
+        ///    2.1. Informar um número de página (iniciar com 1) e definir o tamanho da página (quantidade de registros que você quer que retorne (máximo 100));
+        ///    2.2. Opcionalmente, informar um ou mais dos atributos, caso desejar filtrar os dados;
+        ///    2.3. Opcionalmente, informar ordenacao dos dados retornador, por um ou mais atributos;
+        ///         Obs: Se precisar informar o tipo de ordenação (ascendente ou descendente), acrescente na frente do atributo desejado ':asc' ou ':desc'.
+        /// 
+        /// 3. Body de Exemplo
+        ///    [não se aplica]
+        ///    
+        /// 4. Exemplos de Requisições: 
+        /// protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&nomecompleto=MARC&tipo=J&ordenacao=nomecompleto:asc,cadastradoem:desc
+        /// protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&ordenacao=nomecompleto
+        /// protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50
         /// </remarks>       
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso", typeof(PessoaPaginado))]
+        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso.", typeof(PessoaPaginado))]
+        [SwaggerResponse(System.Net.HttpStatusCode.BadRequest, "Formato de requisição inválido ou parametrização errada.", typeof(PessoaPaginado))]
         [SwaggerResponse(System.Net.HttpStatusCode.NotFound, "Não foram encontrados registros para a página informada.")]
-        [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método")]
+        [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método.")]
         #endregion
         [Route("")]
-        public IDisposable Get([FromUri] Pessoa filtro, int pagina, int tamanhoPagina, string ordenacao)
+        public IDisposable Get([FromUri] PessoaFiltro filtro)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, "Formato de requisição inválido.");
             }
 
-            List<string> erros = _pService.ValidarRequisicao(ordenacao);
+            List<string> erros = _pService.ValidarRequisicao(filtro);
             if (erros.Count > 0)
             {
                 return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, erros);
             }
 
-            var p = _pService.Obter(pagina, tamanhoPagina, filtro, ordenacao);
+            //ver como implementar o versionamento da API aqui no cabeçalho da Response
 
-            if (p != null)
-            {
-                //ver como implementar o versionamento da API aqui no cabeçalho da Response
+            var p = _pService.Obter(filtro);
+            if (p.Pessoas.Count > 0) {                    
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);
             }
             else
             {
                 return Request.CreateResponse(System.Net.HttpStatusCode.NotFound);
-            }
+            }                            
         }
 
         #region anotacoes Swagger para documentacao da api
         /// <summary>
-        /// Retornar uma pessoa 
+        /// Retorna uma pessoa 
         /// </summary>
         /// <remarks>
         /// Retorna uma pessoa a partir do seu id.
-        /// </remarks>       
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso", typeof(Pessoa))]
+        /// </remarks>               
+        [SwaggerResponse(System.Net.HttpStatusCode.BadRequest, "Id inválido.")]
         [SwaggerResponse(System.Net.HttpStatusCode.NotFound, "Não encontrou registro de pessoa com o id informado.")]
         [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método")]
+        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso", typeof(Pessoa))]
         #endregion        
         [HttpGet]
         [Route("{id}")]
         public IHttpActionResult ObterPessoa(long id)
         {
-            if (id == 0)
+            if (id <= 0)
             {
                 return BadRequest("Id inválido.");
             }
@@ -100,67 +106,6 @@ namespace Consinco.WebApi.Controllers.v1
             {
                 return NotFound();
             }
-        }        
-
-        /*
-        #region anotacoes Swagger para documentacao da api        
-        /// <summary>
-        /// Retornar uma lista de todas as pessoas de um tipo específico (física ou jurídica) por paginação. 
-        /// Informar um número de página (iniciar com 1), definir a quantidade de registros que você quer que retorne (máximo 100). 
-        /// Além disso, você opcionalmente pode solicitar a ordenacao dos dados por um ou mais atributos do JSON (se não informado será ordenado por Id).
-        /// Caso precise na descriminar o tipo de ordenação (ascendente ou descendente), acrescente na frente do atributo ':asc' ou ':desc'.
-        /// Por fim, na URI do endpoint você deve informar todas/tipo/fisica ou todas/tipo/juridica
-        /// 
-        /// URL de Exemplos: 
-        /// http://meuservidor/api/v1?todas/tipo/fisica?pagina=1&tamanhoPagina=50&ordenacao=nomecompleto:asc,cadastradoem:desc
-        /// http://meuservidor/api/v1?todas/tipo/juridica?pagina=1&tamanhoPagina=50&ordenacao=nomereduzido
-        /// 
-        /// Cabeçalho da Request de Exemplo: 
-        /// 
-        /// Body de Exemplo: 
-        /// [não se aplica]
-        /// </summary>
-        /// <remarks>
-        /// Retorna uma lista de todas as pessoas do ERP Acrux Web.
-        /// </remarks>      
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso", typeof(PessoaPaginado))]
-        [SwaggerResponse(System.Net.HttpStatusCode.NotFound, "Não foram encontrados registros para a página informada.")]
-        [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método")]
-        #endregion
-        [HttpGet]
-        [Route("api/v1/todas/tipo/{tipo}")]
-        public IHttpActionResult ObterPessoasPorTipo(int pagina, int tamanhoPagina, string PessoaFiltro, string ordenacao, [FromUri] string tipo)
-        {
-            //Criar aqui o Cancellation Token
-
-            bool reqOk = true;
-            if (string.IsNullOrEmpty(tipo) || string.IsNullOrWhiteSpace(tipo))
-            {
-                reqOk = false;
-            }
-            else
-            {
-                if (!tipo.ToLower().Equals("fisica") && !tipo.ToLower().Equals("juridica")) {
-                    reqOk = false;
-                }
-            }                    
-                
-            if (!reqOk)
-            {
-                return BadRequest("Formato de requisição inválido. Tipo requerido: 'fisica' ou 'juridica'");
-            }
-
-            var p = _pService.Obter(pagina, tamanhoPagina, filtro, ordenacao, tipo);
-            //ver como implementar o versionamento da API aqui no cabeçalho da Response
-            if (p != null)
-            {
-                return Ok(p);
-            }
-            else
-            {
-                return NotFound();
-            }            
-        }        
-        */
+        }               
     }
 }

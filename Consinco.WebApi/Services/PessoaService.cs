@@ -20,24 +20,16 @@ namespace Consinco.WebApi.Services
             return _repo.Obter(id);
         }
 
-        public PessoaPaginado Obter(int pagina, int tamanhoPagina, Pessoa filtro, string ordenacao)
+        public PessoaPaginado Obter(PessoaFiltro filtro)
         {
-            return _repo.Obter(new PessoaFiltro
-            {
-                Pagina = pagina,
-                TamanhoPagina = tamanhoPagina,
-                Ordenacoes = OrdenacaoHelper.ObterOrdenadores(ordenacao),
-                NomeCompleto = filtro.NomeCompleto,
-                NomeReduzido = filtro.NomeReduzido,
-                Tipo = filtro.Tipo
-            });
+            return _repo.Obter(filtro);
         }
 
-        public List<string> ValidarRequisicao(string ordenacao)
+        public List<string> ValidarRequisicao(PessoaFiltro filtro)
         {
             List<string> ret = new List<string>();
 
-            if (!OrdenacaoHelper.OrdenacaoValida(typeof(Pessoa), ordenacao))
+            if (!OrdenacaoHelper.OrdenacaoValida(typeof(Pessoa), filtro.ordenacao))
             {
                 ret.Add("Parâmetro de Ordenação Inválido");
             }
