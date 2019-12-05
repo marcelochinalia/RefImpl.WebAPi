@@ -50,7 +50,7 @@ namespace Consinco.WebApi.Controllers.v1
         [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método.")]
         #endregion
         [Route("")]
-        public IDisposable Get([FromUri] PessoaFiltro filtro)
+        public IDisposable ObterPessoa([FromUri] PessoaFiltro filtro)
         {
             if (!ModelState.IsValid)
             {
