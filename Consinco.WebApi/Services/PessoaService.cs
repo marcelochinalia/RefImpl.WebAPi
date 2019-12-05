@@ -1,4 +1,5 @@
 ﻿using Consinco.WebApi.Helpers;
+using Consinco.WebApi.Models.Errors;
 using Consinco.WebApi.Models.Pessoas;
 using Consinco.WebApi.Repositories.Pessoas;
 using System.Collections;
@@ -25,16 +26,30 @@ namespace Consinco.WebApi.Services
             return _repo.Obter(filtro);
         }
 
-        public List<string> ValidarRequisicao(PessoaFiltro filtro)
+        public List<Erro> ValidarRequisicao(PessoaFiltro filtro)
         {
-            List<string> ret = new List<string>();
+            List<Erro> ret = new List<Erro>();
 
             if (!OrdenacaoHelper.OrdenacaoValida(typeof(Pessoa), filtro.ordenacao))
             {
-                ret.Add("Parâmetro de Ordenação Inválido");
+                ret.Add( new Erro {
+                    Codigo = 9000,
+                    Descricao = "Requisição inválida.",
+                    Mensagem = "Parâmetro de ordenação inválido."
+                });
             }
 
             return ret;
+        }
+
+        public Erro GerarErro(string mensagem)
+        {
+            return new Erro
+                {
+                    Codigo = 9999,
+                    Descricao = "Requisição inválida.",
+                    Mensagem = mensagem
+                };            
         }
     }
 }

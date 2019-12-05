@@ -6,10 +6,13 @@ namespace Consinco.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            // Remove a opção da WebApi de receber e retornar dados em formato XML
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            // Web API routes
+            // Usado para caso de chamada de protocolo http 1.0 para verbos do http 1.1
+            config.MessageHandlers.Add(new MethodOverrideHandler());
+
+            // Configuração de Rotas da Web Api
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

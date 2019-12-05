@@ -21,6 +21,7 @@ namespace Consinco.WebApi.Repositories.Pessoas
         abstract public Pessoa Obter(long id);
         abstract public PessoaPaginado Obter(PessoaFiltro filtro);
 
+        // Todo: mudar assinatura para BaseFiltro e List<object>
         protected PessoaPaginado TratarPaginacao(PessoaFiltro filtro, List<Pessoa> pessoas)
         {
             PessoaPaginado paginado = new PessoaPaginado();

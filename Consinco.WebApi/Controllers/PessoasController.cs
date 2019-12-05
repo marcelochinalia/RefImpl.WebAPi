@@ -49,15 +49,16 @@ namespace Consinco.WebApi.Controllers.v1
         [SwaggerResponse(System.Net.HttpStatusCode.NotFound, "Não foram encontrados registros para a página informada.")]
         [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método.")]
         #endregion
+        [HttpGet]
         [Route("")]
         public IDisposable ObterPessoa([FromUri] PessoaFiltro filtro)
         {
             if (!ModelState.IsValid)
             {
-                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, "Formato de requisição inválido.");
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, _pService.GerarErro("Formato de requisição inválido."));
             }
 
-            List<string> erros = _pService.ValidarRequisicao(filtro);
+            var erros = _pService.ValidarRequisicao(filtro);
             if (erros.Count > 0)
             {
                 return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, erros);
@@ -89,23 +90,31 @@ namespace Consinco.WebApi.Controllers.v1
         #endregion        
         [HttpGet]
         [Route("{id}")]
-        public IHttpActionResult ObterPessoa(long id)
+        public IDisposable ObterPessoa(long id)
         {
             if (id <= 0)
             {
-                return BadRequest("Id inválido.");
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, _pService.GerarErro("Formato de requisição inválido."));
             }
 
             var p = _pService.Obter(id);
             //ver como implementar o versionamento da API aqui no cabeçalho da Response
             if (p != null)
             {
-                return Ok(p);
+                return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);
             }
             else
             {
-                return NotFound();
+                return Request.CreateResponse(System.Net.HttpStatusCode.NotFound);
             }
-        }               
+        }          
+        
+        [HttpDelete]
+        [Route("{id}")]
+        public IDisposable Excluir(long id)
+        {
+            string texto = "Cheguei aqui " + id.ToString();
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, texto);
+        }
     }
 }
