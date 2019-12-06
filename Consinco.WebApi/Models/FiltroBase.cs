@@ -14,15 +14,15 @@ namespace Consinco.WebApi.Models
 
         public int Pagina { get; set; }
         public int TamanhoPagina { get; set; }
-        public string ordenacao { get; set; }
+        public string Ordenacao { get; set; }
         
         public IDictionary<string, string> ObterOrdenacoes()
         {
             IDictionary<string, string> ret = null;
 
-            if (ordenacao!= null)
+            if (Ordenacao!= null)
             {
-                ret = OrdenacaoHelper.ObterOrdenadores(ordenacao);
+                ret = OrdenacaoHelper.ObterOrdenadores(Ordenacao);
             }      
             
             if (ret == null)

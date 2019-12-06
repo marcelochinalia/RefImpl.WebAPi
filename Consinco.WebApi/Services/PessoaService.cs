@@ -30,7 +30,7 @@ namespace Consinco.WebApi.Services
         {
             List<Erro> ret = new List<Erro>();
 
-            if (!OrdenacaoHelper.OrdenacaoValida(typeof(Pessoa), filtro.ordenacao))
+            if (!OrdenacaoHelper.OrdenacaoValida(typeof(Pessoa), filtro.Ordenacao))
             {
                 ret.Add( new Erro {
                     Codigo = 9000,
