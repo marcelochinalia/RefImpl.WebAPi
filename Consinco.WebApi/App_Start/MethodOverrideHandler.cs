@@ -6,6 +6,8 @@ using System;
 
 namespace Consinco.WebApi
 {
+    // Esse classe atende a diretriz de arquitetura para que a Web Api seja
+    // executa por clients que ainda fazem uso de protocolo HTTP 1.0
     public class MethodOverrideHandler : DelegatingHandler
     {
         readonly string[] _methods = { "DELETE", "HEAD", "PUT", "PATCH" };
@@ -14,14 +16,14 @@ namespace Consinco.WebApi
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            // Check for HTTP POST with the X-HTTP-Method-Override header.
+            // Checa se na requisição HTTP POST possui a variável X-HTTP-Method-Override no header da request.
             if (request.Method == HttpMethod.Post && request.Headers.Contains(_header))
             {
-                // Check if the header value is in our methods list.
+                // Checa se o valor passado no header é um dos métodos da lista _methods.
                 var method = request.Headers.GetValues(_header).FirstOrDefault();
                 if (_methods.Contains(method, StringComparer.InvariantCultureIgnoreCase))
                 {
-                    // Change the request method.
+                    // Faz a troca para o método corresponde da Web Api
                     request.Method = new HttpMethod(method);
                 }
             }
