@@ -1,21 +1,64 @@
 ﻿using Consinco.WebApi.Models.Pessoas;
-using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
-using Dapper;
 using Consinco.WebApi.Helpers;
+using Oracle.ManagedDataAccess.Client;
+using System.Collections.Generic;
+using System.Collections;
+using System;
+using Dapper;
 
 namespace Consinco.WebApi.Repositories.Pessoas
 {
     // O encapsulamento da implementação de paginação depende de você herdar a classe abstrata do Repositório
     public class PessoaRepository : APessoaRepository
-    {        
-        public override bool Atualizar(Pessoa pessoa)
+    {
+        public override int Atualizar(Pessoa pessoa)
         {
             throw new NotImplementedException();
         }
 
-        public override bool Excluir(long id)
+        public override int Atualizar(long id, PessoaPatch patch)
+        {
+            int result = 0;
+            Hashtable atributos = PatchHelper.SegmentarAtributos<PessoaPatch>(patch);
+            string sql = "update ge_pessoa set ";
+
+            foreach (DictionaryEntry atributo in atributos)
+            {
+                switch (atributo.Key)
+                {
+                    case "NomeCompleto":
+                        sql += "nomerazao = :NomeCompleto,";
+                        break;
+
+                    case "NomeReduzido":
+                        sql += "fantasia = :NomeReduzido,";
+                        break;
+
+                    default:
+                        sql += "";
+                        break;
+                }
+            }
+
+            sql = sql.Substring(0, sql.Length - 1);
+            sql += " where seqpessoa = :Id";
+
+            object parametros = new
+            {
+                Id = id,
+                NomeCompleto = atributos["NomeCompleto"],
+                NomeReduzido = atributos["NomeReduzido"]
+            };
+
+            using (OracleConnection connection = new OracleConnection(_connStr))
+            {
+                result = connection.Execute(sql, parametros);
+            }
+
+            return result;
+        }
+
+        public override void Excluir(long id)
         {
             throw new NotImplementedException();
         }

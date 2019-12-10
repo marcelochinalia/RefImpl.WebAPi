@@ -15,8 +15,9 @@ namespace Consinco.WebApi.Repositories.Pessoas
             _connStr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         }
 
-        abstract public bool Atualizar(Pessoa pessoa);
-        abstract public bool Excluir(long id);
+        abstract public int Atualizar(Pessoa pessoa);
+        abstract public int Atualizar(long id, PessoaPatch patch);
+        abstract public void Excluir(long id);
         abstract public Pessoa Novo(Pessoa pessoa);
         abstract public Pessoa Obter(long id);
         abstract public PessoaPaginado Obter(PessoaFiltro filtro);

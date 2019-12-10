@@ -1,4 +1,5 @@
-﻿using Consinco.WebApi.Models.Pessoas;
+﻿using Consinco.WebApi.Helpers;
+using Consinco.WebApi.Models.Pessoas;
 
 namespace Consinco.WebApi.Repositories.Pessoas
 {
@@ -7,7 +8,8 @@ namespace Consinco.WebApi.Repositories.Pessoas
         Pessoa Obter(long id);
         PessoaPaginado Obter(PessoaFiltro filtro);
         Pessoa Novo(Pessoa pessoa);
-        bool Atualizar(Pessoa pessoa);
-        bool Excluir(long id);
+        int Atualizar(Pessoa pessoa);
+        int Atualizar(long id, PessoaPatch patch);
+        void Excluir(long id);
     }
 }

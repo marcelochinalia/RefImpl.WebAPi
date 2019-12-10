@@ -104,9 +104,12 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Helpers\OrdenacaoHelper.cs" />
+    <Compile Include="Helpers\PatchHelper.cs" />
     <Compile Include="Models\Errors\Erro.cs" />
     <Compile Include="Models\Errors\ErroSubErros.cs" />
     <Compile Include="Models\FiltroBase.cs" />
+    <Compile Include="Models\Errors\ErrorsConstants.cs" />
+    <Compile Include="Models\Pessoas\PessoaPatch.cs" />
     <Compile Include="Services\PessoaService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PessoasController.cs" />
