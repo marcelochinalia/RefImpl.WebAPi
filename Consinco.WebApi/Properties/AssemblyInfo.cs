@@ -5,9 +5,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Consinco S/A")]
 [assembly: AssemblyProduct("Consinco.WebApi")]
 
-// Versionamento (Version Number.Release Number.Build Number)
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyFileVersion("1.0.0")]
+// Versionamento (Version Number.Build Number)
+[assembly: AssemblyVersion("3.1")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
