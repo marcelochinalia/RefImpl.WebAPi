@@ -1,4 +1,5 @@
-﻿using Consinco.WebApi.Helpers;
+﻿using Consinco.WebApi.Filters;
+using Consinco.WebApi.Helpers;
 using Microsoft.Web.Http;
 using Swashbuckle.Swagger.Annotations;
 using System.Collections;
@@ -6,11 +7,12 @@ using System.Web.Http;
 
 namespace Consinco.WebApi.Controllers
 {
-    // Sempre criar este Controlador para ajudar no HotDeploy da Web Api no servidor IIS do cliente
-    //[ApiVersion("1", Deprecated = true)]
+    // AdvertiseApiVersions se declarado com Deprecated = true, faz com que o cliente que consome o endpoint receba um HttpStatusCode = BadRequest
+    // o que significa que ele não receberá mais o retorno esperado.
     [AdvertiseApiVersions("1", Deprecated = true)]
-    [Route("api/home")]
-    public class HomeController : ConsincoBaseController
+    [VersionamentoFilter]
+    [RoutePrefix("api/home")]
+    public class HomeController : ApiController
     {
         #region anotacoes Swagger para documentacao da api
         /// <summary>
@@ -32,9 +34,12 @@ namespace Consinco.WebApi.Controllers
         }
     }
 
-    [ApiVersion("2")]
+    // Se ApiVersion declarado com Deprecated = true, faz com que o cliente que consome o endpoint receba um HttpStatusCode = 200
+    // porém, ele receberá o atributo api-deprecated-versions, indicando que esse método já está obsoleto.
+    [ApiVersion("2",Deprecated = true)]
+    [VersionamentoFilter]
     [Route("api/home")]
-    public class HomeV2Controller : ConsincoBaseController
+    public class HomeV2Controller : ApiController
     {
         #region anotacoes Swagger para documentacao da api
         /// <summary>
@@ -55,9 +60,11 @@ namespace Consinco.WebApi.Controllers
         }
     }
 
+    // sempre que alterar a versão de um controlador, todos os demais devem ser versionado
     [ApiVersion("3")]
+    [VersionamentoFilter]
     [Route("api/home")]
-    public class HomeV3Controller : ConsincoBaseController
+    public class HomeV3Controller : ApiController
     {
         #region anotacoes Swagger para documentacao da api
         /// <summary>

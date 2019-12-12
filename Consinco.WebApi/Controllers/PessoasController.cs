@@ -2,16 +2,20 @@
 using Consinco.WebApi.Models.Pessoas;
 using Consinco.WebApi.Services;
 using Swashbuckle.Swagger.Annotations;
+using Microsoft.Web.Http;
 using System.Web.Http;
 using System.Net.Http;
 using System;
-using Microsoft.Web.Http;
+using Consinco.WebApi.Filters;
 
 namespace Consinco.WebApi.Controllers.v1
-{   
-    [ApiVersion("1")]
-    [RoutePrefix("api/{api.version}/pessoas")]
-    public class PessoasController : ConsincoBaseController
+{
+    [AdvertiseApiVersions("1", Deprecated = true)]
+    [ApiVersion("2", Deprecated = true)]
+    [ApiVersion("3")]
+    [VersionamentoFilter]
+    [RoutePrefix("api/pessoas")]
+    public class PessoasController : ApiController
     {
         // é boa prática criar uma classe de serviço para encapsular regras de consistência 
         // ou binds de dados para evitar que os controladores fiquem inchados

@@ -106,7 +106,7 @@
     <Compile Include="App_Start\MethodOverrideHandler.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ConsincoBaseController.cs" />
+    <Compile Include="Filters\VersionamentoFilter.cs" />
     <Compile Include="Helpers\OrdenacaoHelper.cs" />
     <Compile Include="Helpers\PatchHelper.cs" />
     <Compile Include="Helpers\VersionamentoHelper.cs" />
@@ -141,7 +141,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiThrottle\WebApiThrottle.csproj">
+      <Project>{f049811f-bc05-4cee-b329-ce3bf2e2e4be}</Project>
+      <Name>WebApiThrottle</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
