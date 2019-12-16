@@ -3,7 +3,6 @@ using WebActivatorEx;
 using WebApiReferencia;
 using Swashbuckle.Application;
 using System;
-using System.Linq;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -19,12 +18,8 @@ namespace WebApiReferencia
                 .EnableSwagger(c =>
                 {
                     c.SingleApiVersion("v1", "Consinco Web Api - Implementação de Referência");
-
-                    c.IgnoreObsoleteActions();
-                    c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}\bin\Consinco.WebApi.xml");
-                    c.IgnoreObsoleteProperties();
-
-                    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                    c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}\bin\Consinco.WebApi.xml");                    
+                    //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 })
 
                 .EnableSwaggerUi(c =>

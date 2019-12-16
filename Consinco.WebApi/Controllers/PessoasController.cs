@@ -32,48 +32,50 @@ namespace Consinco.WebApi.Controllers.v1
         #region anotacoes Swagger para documentacao da api
         ///<summary>
         /// Retorna uma lista de pessoas.        
-        /// </summary>
+        ///</summary>
         ///<remarks>
-        /// Para acionar esse método é necessário seguir os seguintes passos para montagem da requisição:
-        /// 1. Cabeçalho do Http Request: 
-        ///    1.1. Informe através da variável "api-version" a versão do endpoint que você está usando.
-        ///         Caso essa variável não seja informada, a Web Api executará sua versão mais nova, podendo está, causar uma problema em sua aplicação de consumo.
-        ///         1.1.1. Uma vez que esteja usando "api-version", verifique sempre em sua Http Response se a Web Api Consinco retorna uma varíavel "api-deprecated-versions".
-        ///                Isso significa que a versão do endpoint está obselta e a mesma poderá deixar de funcionar em versões futuras do ERP (você receberá response com HttpStatusCode = 400 (Bad Request).
+        ///Para acionar esse método é necessário seguir os seguintes passos para montagem da requisição:
+        ///###1. Cabeçalho (Header) do Http Request###
+        ///Informe através da variável `api-version` a versão do endpoint que você está usando.
+        ///
+        ///**Atenção:** Se `api-version` não for informada, a Web Api executará sua versão mais nova, podendo causar uma problema em sua aplicação de consumo.
+        ///Verifique sempre em sua `Http Response` se a Web Api Consinco retorna uma varíavel `api-deprecated-versions`.
+        ///Isso significa que a versão do endpoint está obselta e a mesma poderá deixar de funcionar em versões futuras do ERP (você receberá response com `HttpStatusCode = 400 (Bad Request)`.
         /// 
-        /// 2. Query string (url):
-        ///    2.1. Informar um número de página (iniciar com 1) e definir o tamanho da página (quantidade de registros que você quer que retorne (máximo 100));
-        ///    2.2. Opcionalmente, informar um ou mais dos atributos, caso desejar filtrar os dados;
-        ///    2.3. Opcionalmente, informar ordenacao dos dados retornador, por um ou mais atributos;
-        ///         Obs: Se precisar informar o tipo de ordenação (ascendente ou descendente), acrescente na frente do atributo desejado ':asc' ou ':desc'.
+        ///###2. Query string (URL)###
+        ///     2.1. Informar um número da página (iniciar com 1) a ser consultada e definir o tamanho da página, 
+        ///          que é quantidade de registros que você quer que retorne na página (máximo 100).
+        ///     2.2. Opcionalmente, informar um ou mais dos atributos, caso desejar filtrar os dados.
+        ///     2.3. Opcionalmente, informar ordenacao dos dados retornador, por um ou mais atributos.
+        ///     
+        ///**Obs:** Se precisar informar o tipo de ordenação (ascendente ou descendente), acrescente na frente do atributo desejado `:asc` ou `:desc`.
         /// 
-        /// 3. Body de Exemplo
-        ///    [não se aplica]
+        ///###3. Corpo (Body) do Http Request###
+        ///[não se aplica]
         ///    
-        /// 4. Detalhes da Http Response:
-        ///    Com o objetivo de evitar que clients com erro ou maliciosos façam muitas requisições simultaneamente, causando lentidão, falha no sistema ou na infra que o suporta,
-        ///    está Web Api possui uma política de acesso simultâneo totalmente configurável para sua necessidade. Uma vez definida a política, o Web Api sempre retornará ao client
-        ///    que estiver consumindo o endpoint as varáveis abaixo em seu cabeçalho:
-        ///    X-Rate-Limit-Limit: exibe a quantidade de tempo que resta para aceitar requisições simultâneas no WebApi.
-        ///    X-Rate-Limit-Remaining: exibe a quantidade de requisições que ainda falta para exceder a quantidade de acessos simultâneos.
-        ///    X-Rate-Limit-Reset: indica em que data/hora o Web Api reiniciará o número total de requisições simultâneas.
+        ///###4. Detalhes da Resposta (Http Response)###
+        ///Com o objetivo de evitar que clients com erro ou maliciosos façam muitas requisições simultaneamente, causando lentidão, falha no sistema ou na infra que o suporta, está Web Api possui uma política de acesso simultâneo totalmente configurável para sua necessidade. Uma vez definida a política, o Web Api sempre retornará ao client que estiver consumindo o endpoint as varáveis abaixo em seu cabeçalho:
+        /// 
+        ///     X-Rate-Limit-Limit: exibe a quantidade de tempo que resta para aceitar requisições simultâneas no WebApi.
+        ///     X-Rate-Limit-Remaining: exibe a quantidade de requisições que ainda falta para exceder a quantidade de acessos simultâneos.
+        ///     X-Rate-Limit-Reset: indica em que data/hora o Web Api reiniciará o número total de requisições simultâneas.
         ///    
-        ///    Detalhe importante sobre a política de acesso simultâneo. Caso o limite de acessos da política tenha sido atingido, o Web Api retornará ao
-        ///    client o HttpStatusCode 429 (Too Many Requests) e no cabeçalho da response virá a variável abaixo:
-        ///    After-Retry: possui o tempo de espera que o cliente precisa aguardar para enviar uma nova requisição.
+        ///**Detalhe importante sobre a política de acesso simultâneo:**
+        ///
+        ///Caso o limite de acessos da política tenha sido atingido, o Web Api retornará client o `HttpStatusCode 429 (Too Many Requests)` e no cabeçalho da response virá a variável abaixo:
+        ///
+        ///     After-Retry: possui o tempo de espera que o cliente precisa aguardar para enviar uma nova requisição.
         ///    
-        /// 5. Exemplos de Requisições:         
-        /// {
-        ///     protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&nomecompleto=MARC&tipo=J&ordenacao=nomecompleto:asc,cadastradoem:desc
-        ///     protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&ordenacao=nomecompleto
-        ///     protocolo://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50
-        /// }
-        ///</remarks>               
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso.", typeof(PessoaPaginado))]
+        /// ###5. Exemplos de Requisições###
+        ///     a. <![CDATA[http://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&nomecompleto=marc&tipo=J&ordenacao=nomecompleto:asc,cadastradoem:desc]]>
+        ///     b. <![CDATA[http://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50&ordenacao=nomecompleto]]>
+        ///     c. <![CDATA[http://meuservidor/api/pessoas?pagina=1&tamanhoPagina=50]]>       
+        ///</remarks>
         [SwaggerResponse(_TOO_MANY_REQUEST, "Número de requisições simultâneas suportadas esgotado.)")]
-        [SwaggerResponse(System.Net.HttpStatusCode.BadRequest, "Formato de requisição inválido ou parametrização errada ou versão do endpoint usado está obsoleta.", typeof(PessoaPaginado))]
+        [SwaggerResponse(System.Net.HttpStatusCode.BadRequest, "Parâmetros enviados incorretamente.", typeof(Erro))]
         [SwaggerResponse(System.Net.HttpStatusCode.NotFound, "Não foram encontrados registros para a página informada.")]
         [SwaggerResponse(System.Net.HttpStatusCode.Unauthorized, "Sem permissão para executar método.")]
+        [SwaggerResponse(System.Net.HttpStatusCode.OK, "Requisição processada com sucesso.", typeof(PessoaPaginado))]
         #endregion
         [HttpGet]
         [Route("")]

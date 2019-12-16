@@ -1,5 +1,6 @@
 ﻿using Consinco.WebApi.Helpers;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Consinco.WebApi.Models
 {
@@ -12,8 +13,10 @@ namespace Consinco.WebApi.Models
             TamanhoPagina = 25;
         }
 
+        [Required]
         public int Pagina { get; set; }
-        public int TamanhoPagina { get; set; }
+        [Required]
+        public int TamanhoPagina { get; set; }        
         public string Ordenacao { get; set; }
         
         public IDictionary<string, string> ObterOrdenacoes()
