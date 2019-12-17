@@ -20,15 +20,9 @@ namespace Consinco.WebApi.Controllers.v1
         // é boa prática criar uma classe de serviço para encapsular regras de consistência 
         // ou binds de dados para evitar que os controladores fiquem inchados
         private const int _TOO_MANY_REQUEST = 429;
-        private readonly PessoaService _pService;
+        private readonly PessoaService _pService = new PessoaService();
+        private readonly NLog.Logger _log = Logs.PessoasLog.Instace.ObterLogger();
         
-        //TODO Colocar Logger
-
-        public PessoasController()
-        {
-            _pService = new PessoaService();
-        }
-
         #region anotacoes Swagger para documentacao da api
         ///<summary>
         /// Retorna uma lista de pessoas.        
@@ -81,30 +75,37 @@ namespace Consinco.WebApi.Controllers.v1
         [Route("")]
         public HttpResponseMessage ObterPessoa([FromUri] PessoaFiltro filtro)
         {
+            _log.Info("[ObterPessoa] Iniciando...");
+            _log.Debug("[ObterPessoa] Filtro: " + filtro.toJson());
             try {
+                _log.Info("[ObterPessoa] Validando ModelState...");
                 if (!ModelState.IsValid)
                 {
                     return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, _pService.GerarErro());
                 }
 
+                _log.Info("[ObterPessoa] Validando Requisicao...");
                 var erros = _pService.ValidarRequisicao(filtro);
                 if (erros.Count > 0)
                 {
                     return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, erros);
                 }
 
-                //ver como implementar o versionamento da API aqui no cabeçalho da Response
-
+                _log.Info("[ObterPessoa] Consultando dados...");
                 var p = _pService.Obter(filtro);
                 if (p.Pessoas.Count > 0) {
+                    _log.Info("[ObterPessoa] Retornando dados...");
                     return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);
                 }
                 else
                 {
+                    _log.Info("[ObterPessoa] Dados não encontrados...");
                     return Request.CreateResponse(System.Net.HttpStatusCode.NotFound);
                 }
             }
-            catch (Exception) {
+            catch (Exception e) {
+                _log.Error(e);
+
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError);
             }
         }
