@@ -1,0 +1,37 @@
+[15:31:39 INF] [ObterPessoa] Iniciando...
+[15:31:39 DBG] [PessoaRepository] [Obter] Id: 1
+[15:31:39 DBG] [PessoaRepository] [Obter] Query: SELECT seqpessoa Id, nomerazao NomeCompleto, fantasia NomeReduzido,        fisicajuridica Tipo, dtainclusao CadastradoEm  FROM ge_pessoa  WHERE seqpessoa = :Id
+[15:31:39 DBG] [PessoaRepository] [Obter] Parâmetros Query: { Id = 1 }
+[15:31:40 INF] [ObterPessoa] Finalizado.
+[15:45:05 INF] [ObterPessoa] Iniciando...
+[15:45:05 DBG] [PessoaRepository] [Obter] Id: 1
+[15:45:05 DBG] [PessoaRepository] [Obter] Query: ELECT seqpessoa Id, nomerazao NomeCompleto, fantasia NomeReduzido,        fisicajuridica Tipo, dtainclusao CadastradoEm  FROM ge_pessoa  WHERE seqpessoa = :Id
+[15:45:05 DBG] [PessoaRepository] [Obter] Parâmetros Query: { Id = 1 }
+[15:45:06 ERR] [ObterPessoa]
+[15:45:56 INF] [ObterPessoa] Iniciando...
+[15:45:59 DBG] [PessoaRepository] [Obter] Id: 1
+[15:45:59 DBG] [PessoaRepository] [Obter] Query: ELECT seqpessoa Id, nomerazao NomeCompleto, fantasia NomeReduzido,        fisicajuridica Tipo, dtainclusao CadastradoEm  FROM ge_pessoa  WHERE seqpessoa = :Id
+[15:46:00 DBG] [PessoaRepository] [Obter] Parâmetros Query: { Id = 1 }
+[15:46:18 ERR] [ObterPessoa]
+[15:50:15 INF] [ObterPessoa] Iniciando...
+[15:50:19 DBG] [PessoaRepository] [Obter] Id: 1
+[15:50:19 DBG] [PessoaRepository] [Obter] Query: ELECT seqpessoa Id, nomerazao NomeCompleto, fantasia NomeReduzido,        fisicajuridica Tipo, dtainclusao CadastradoEm  FROM ge_pessoa  WHERE seqpessoa = :Id
+[15:50:19 DBG] [PessoaRepository] [Obter] Parâmetros Query: { Id = 1 }
+[15:50:27 ERR] [ObterPessoa] Erro Interno
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00900: instrução SQL inválida
+   em OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   em OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteReader(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, OracleDataReaderImpl& rdrImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[] scnForExecution, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, Int64& internalInitialLOBFS, OracleException& exceptionForArrayBindDML, OracleConnection connection, OracleLogicalTransaction& oracleLogicalTransaction, IEnumerable`1 adrianParsedStmt, Boolean isDescribeOnly, Boolean isFromEF)
+   em Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteReader(Boolean requery, Boolean fillRequest, CommandBehavior behavior)
+   em Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   em System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   em Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   em Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   em Dapper.SqlMapper.QueryFirstOrDefault[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   em Consinco.WebApi.Repositories.Pessoas.PessoaRepository.Obter(Int64 id) na C:\Users\marcelo.chinalia\source\repos\Consinco.WebApi\Consinco.WebApi\Repositories\Pessoas\PessoaRepository.cs:linha 103
+   em Consinco.WebApi.Services.PessoaService.Obter(Int64 id) na C:\Users\marcelo.chinalia\source\repos\Consinco.WebApi\Consinco.WebApi\Services\PessoaService.cs:linha 43
+   em Consinco.WebApi.Controllers.v1.PessoasController.ObterPessoa(Int64 id) na C:\Users\marcelo.chinalia\source\repos\Consinco.WebApi\Consinco.WebApi\Controllers\PessoasController.cs:linha 138
+[15:53:42 INF] [ObterPessoa] Iniciando...
+[15:53:56 DBG] [PessoaRepository] [Obter] Id: 180
+[15:53:56 DBG] [PessoaRepository] [Obter] Query: select seqpessoa Id, nomerazao NomeCompleto, fantasia NomeReduzido, fisicajuridica Tipo, dtainclusao CadastradoEm from ge_pessoa where seqpessoa = :Id
+[15:53:56 DBG] [PessoaRepository] [Obter] Parâmetros Query: { Id = 180 }
+[15:53:56 INF] [ObterPessoa] Finalizado.

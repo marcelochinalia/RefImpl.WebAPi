@@ -2,7 +2,7 @@
 {
     public static class ErrorsConstants
     {
-        public const long BusinessErrorCode = 8000;
-        public const long ServiceErrorCode = 1000;
+        public const string BusinessErrorCode = "erro-regra-negocio";
+        public const string ServiceErrorCode = "erro-servico";
     }
 }

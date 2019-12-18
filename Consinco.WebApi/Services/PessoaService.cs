@@ -173,7 +173,7 @@ namespace Consinco.WebApi.Services
             return GerarErro(ErrorsConstants.BusinessErrorCode, "Formato de requisição inválido.", "Formato de requisição inválido.");
         }
 
-        public Erro GerarErro(long codigo, string descricao, string mensagem)
+        public Erro GerarErro(string codigo, string descricao, string mensagem)
         {
             return new Erro
                 {

@@ -29,7 +29,7 @@ namespace Consinco.WebApi.Helpers
                         campo = ordens[i].Substring(0, campo.IndexOf(":"));
                     }
 
-                    ret = properties.Where(W => campo.Contains(W.Name)).Any();
+                    ret = properties.Where(W => campo.ToLower().Contains(W.Name.ToLower())).Any();
                     if (!ret)
                     {
                         ret = false;

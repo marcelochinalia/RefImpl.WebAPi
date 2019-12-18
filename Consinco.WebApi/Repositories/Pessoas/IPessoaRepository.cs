@@ -1,5 +1,4 @@
-﻿using Consinco.WebApi.Helpers;
-using Consinco.WebApi.Models.Pessoas;
+﻿using Consinco.WebApi.Models.Pessoas;
 
 namespace Consinco.WebApi.Repositories.Pessoas
 {

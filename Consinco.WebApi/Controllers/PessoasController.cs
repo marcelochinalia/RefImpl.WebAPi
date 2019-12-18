@@ -6,14 +6,14 @@ using Microsoft.Web.Http;
 using System.Web.Http;
 using System.Net.Http;
 using System;
-using Consinco.WebApi.Filters;
+using Serilog.Core;
+using Consinco.WebApi.Logs;
 
 namespace Consinco.WebApi.Controllers.v1
 {
     [AdvertiseApiVersions("1", Deprecated = true)]
     [ApiVersion("2", Deprecated = true)]
     [ApiVersion("3")]
-    [VersionamentoFilter]
     [RoutePrefix("api/pessoas")]
     public class PessoasController : ApiController
     {
@@ -21,7 +21,7 @@ namespace Consinco.WebApi.Controllers.v1
         // ou binds de dados para evitar que os controladores fiquem inchados
         private const int _TOO_MANY_REQUEST = 429;
         private readonly PessoaService _pService = new PessoaService();
-        private readonly NLog.Logger _log = Logs.PessoasLog.Instace.ObterLogger();
+        private readonly Logger _log = Logs.PessoasLog.Instace.ObterLogger();
         
         #region anotacoes Swagger para documentacao da api
         ///<summary>
@@ -73,39 +73,39 @@ namespace Consinco.WebApi.Controllers.v1
         #endregion
         [HttpGet]
         [Route("")]
-        public HttpResponseMessage ObterPessoa([FromUri] PessoaFiltro filtro)
+        public HttpResponseMessage ObterPessoas([FromUri] PessoaFiltro filtro)
         {
-            _log.Info("[ObterPessoa] Iniciando...");
-            _log.Debug("[ObterPessoa] Filtro: " + filtro.toJson());
+            _log.Information("[ObterPessoas] Iniciando...");
+            _log.Debug("[ObterPessoas] Filtro: " + filtro.toJson());
             try {
-                _log.Info("[ObterPessoa] Validando ModelState...");
+                _log.Information("[ObterPessoas] Validando ModelState...");
                 if (!ModelState.IsValid)
                 {
                     return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, _pService.GerarErro());
                 }
 
-                _log.Info("[ObterPessoa] Validando Requisicao...");
+                _log.Information("[ObterPessoas] Validando requisicao...");
                 var erros = _pService.ValidarRequisicao(filtro);
                 if (erros.Count > 0)
                 {
                     return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, erros);
                 }
 
-                _log.Info("[ObterPessoa] Consultando dados...");
+                _log.Information("[ObterPessoas] Consultando dados...");
                 var p = _pService.Obter(filtro);
-                if (p.Pessoas.Count > 0) {
-                    _log.Info("[ObterPessoa] Retornando dados...");
+                if (p.Resultados.Count > 0) {
+                    _log.Information("[ObterPessoas] Finalizado.");
                     return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);
                 }
                 else
                 {
-                    _log.Info("[ObterPessoa] Dados não encontrados...");
+                    _log.Warning("[ObterPessoas] Dados não encontrados...");
                     return Request.CreateResponse(System.Net.HttpStatusCode.NotFound);
                 }
             }
             catch (Exception e) {
-                _log.Error(e);
-
+                _log.Error(e, "[ObterPessoas] Erro Interno");
+                
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError);
             }
         }
@@ -125,26 +125,31 @@ namespace Consinco.WebApi.Controllers.v1
         [HttpGet]
         [Route("{id}")]
         public HttpResponseMessage ObterPessoa(long id)
-        {            
+        {
+            _log.Information("[ObterPessoa] Iniciando...");
             try
             {
                 if (id <= 0)
                 {
+                    _log.Information("[ObterPessoa] Id inválido: " + id.ToString());
                     return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, _pService.GerarErro());
                 }
 
                 var p = _pService.Obter(id);
                 if (p != null)
                 {
+                    _log.Information("[ObterPessoa] Finalizado.");
                     return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);
                 }
                 else
                 {
+                    _log.Warning("[ObterPessoa] Finalizado.");
                     return Request.CreateResponse(System.Net.HttpStatusCode.NotFound);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _log.Error(e, "[ObterPessoa] Erro Interno");
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError);
             }
         }
