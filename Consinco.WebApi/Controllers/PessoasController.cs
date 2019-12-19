@@ -273,7 +273,7 @@ namespace Consinco.WebApi.Controllers.v1
         ///[não se aplica]
         /// 
         ///###3. Corpo (Body) do Http Request###
-        ///Enviar a estrutura em formato JSON conforme
+        ///Enviar a estrutura em formato JSON conforme seção abaixo: **Response Class**
         ///    
         ///###4. Detalhes da Resposta (Http Response)###
         ///Com o objetivo de evitar que clients com erro ou maliciosos façam muitas requisições simultaneamente, causando lentidão, falha no sistema ou na infra que o suporta, está Web Api possui uma política de acesso simultâneo totalmente configurável para sua necessidade. Uma vez definida a política, o Web Api sempre retornará ao client que estiver consumindo o endpoint as varáveis abaixo em seu cabeçalho:
@@ -348,7 +348,7 @@ namespace Consinco.WebApi.Controllers.v1
         ///[não se aplica]
         /// 
         ///###3. Corpo (Body) do Http Request###
-        ///Enviar a estrutura em formato JSON conforme
+        ///Enviar a estrutura em formato JSON conforme seção abaixo: **Response Class**
         ///    
         ///###4. Detalhes da Resposta (Http Response)###
         ///Com o objetivo de evitar que clients com erro ou maliciosos façam muitas requisições simultaneamente, causando lentidão, falha no sistema ou na infra que o suporta, está Web Api possui uma política de acesso simultâneo totalmente configurável para sua necessidade. Uma vez definida a política, o Web Api sempre retornará ao client que estiver consumindo o endpoint as varáveis abaixo em seu cabeçalho:
@@ -435,7 +435,7 @@ namespace Consinco.WebApi.Controllers.v1
         ///[não se aplica]
         /// 
         ///###3. Corpo (Body) do Http Request###
-        ///Enviar a estrutura em formato JSON conforme
+        ///Enviar a estrutura em formato JSON conforme seção abaixo: **Response Class**
         ///    
         ///###4. Detalhes da Resposta (Http Response)###
         ///Com o objetivo de evitar que clients com erro ou maliciosos façam muitas requisições simultaneamente, causando lentidão, falha no sistema ou na infra que o suporta, está Web Api possui uma política de acesso simultâneo totalmente configurável para sua necessidade. Uma vez definida a política, o Web Api sempre retornará ao client que estiver consumindo o endpoint as varáveis abaixo em seu cabeçalho:
