@@ -2,9 +2,8 @@
 using Consinco.WebApi.Models.Errors;
 using Consinco.WebApi.Models.Pessoas;
 using Consinco.WebApi.Repositories.Pessoas;
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Consinco.WebApi.Services
 {

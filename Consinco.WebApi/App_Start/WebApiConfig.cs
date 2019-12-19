@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Web.Http;
-using System.Web.Http.Routing;
-using Consinco.WebApi.Helpers;
+﻿using System.Web.Http;
 using Microsoft.Web.Http;
-using Microsoft.Web.Http.Routing;
 using Microsoft.Web.Http.Versioning;
 using WebApiThrottle;
 

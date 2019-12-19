@@ -5,9 +5,8 @@ using Swashbuckle.Swagger.Annotations;
 using Microsoft.Web.Http;
 using System.Web.Http;
 using System.Net.Http;
-using System;
 using Serilog.Core;
-using Consinco.WebApi.Logs;
+using System;
 
 namespace Consinco.WebApi.Controllers.v1
 {
