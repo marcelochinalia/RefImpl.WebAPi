@@ -26,7 +26,7 @@ namespace Consinco.WebApi.Models.Pessoas
         /// </summary>
         public DateTime? CadastradoEm { get; set; }        
         
-        public string toJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this);
         }
