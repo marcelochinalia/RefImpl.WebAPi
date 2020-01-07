@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Consinco.WebApi.Models.Errors
+﻿namespace Consinco.WebApi.Models.Errors
 {
     public class Erro
     {

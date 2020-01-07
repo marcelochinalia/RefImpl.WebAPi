@@ -4,6 +4,8 @@ using Consinco.WebApi.Models.Pessoas;
 using Consinco.WebApi.Repositories.Pessoas;
 using System.Collections.Generic;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Consinco.WebApi.Services
 {
@@ -42,9 +44,9 @@ namespace Consinco.WebApi.Services
             return _repo.Obter(id);
         }
 
-        public PessoaPaginado Obter(PessoaFiltro filtro)
+        public async Task<PessoaPaginado> ObterAsync(PessoaFiltro filtro, CancellationToken cancellationToken)
         {
-            return _repo.Obter(filtro);
+            return await _repo.ObterAsync(filtro, cancellationToken);
         }
 
         public void Excluir(long id)

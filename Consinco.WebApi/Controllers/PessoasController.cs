@@ -7,6 +7,8 @@ using System.Web.Http;
 using System.Net.Http;
 using Serilog.Core;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Consinco.WebApi.Controllers.v1
 {
@@ -72,8 +74,8 @@ namespace Consinco.WebApi.Controllers.v1
         #endregion
         [HttpGet]
         [Route("")]
-        public HttpResponseMessage ObterPessoas([FromUri] PessoaFiltro filtro)
-        {            
+        public async Task<HttpResponseMessage> ObterPessoas([FromUri] PessoaFiltro filtro, CancellationToken cancellationToken)
+        {
             try {
                 _log.Information("[ObterPessoas] Iniciando...");
                 _log.Debug("[ObterPessoas] Filtro: \n" + filtro.ToJson());
@@ -92,7 +94,7 @@ namespace Consinco.WebApi.Controllers.v1
                 }
 
                 _log.Information("[ObterPessoas] Consultando dados...");
-                var p = _pService.Obter(filtro);
+                var p = await _pService.ObterAsync(filtro, cancellationToken);
                 if (p.Resultados.Count > 0) {
                     _log.Information("[ObterPessoas] Finalizado.");
                     return Request.CreateResponse(System.Net.HttpStatusCode.OK, p);

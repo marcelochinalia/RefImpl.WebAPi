@@ -1,14 +1,15 @@
 ﻿using Consinco.WebApi.Models.Pessoas;
 using Consinco.WebApi.Helpers;
 using Consinco.WebApi.Logs;
-using Serilog.Core;
 using Oracle.ManagedDataAccess.Client;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
+using Serilog.Core;
 using System;
 using Dapper;
-
 
 namespace Consinco.WebApi.Repositories.Pessoas
 {
@@ -107,7 +108,7 @@ namespace Consinco.WebApi.Repositories.Pessoas
         }
 
         // Exemplo usando Dapper e estratégia de Paginação no Banco de Dados
-        public PessoaPaginado Obter(PessoaFiltro filtro)
+        public async Task<PessoaPaginado> ObterAsync(PessoaFiltro filtro, CancellationToken tokenCancel)
         {
             List<Pessoa> pessoas = null;
             Hashtable paginacao = Calcular(filtro.Pagina, filtro.TamanhoPagina);
@@ -153,10 +154,14 @@ namespace Consinco.WebApi.Repositories.Pessoas
                 Inicio = (int)paginacao["inicio"],
                 Final = (int)paginacao["fim"],
             };
-            
-            using (OracleConnection connection = new OracleConnection(_connStr))
+
+            using (System.Data.IDbConnection connection = new OracleConnection(_connStr))
             {
-                pessoas = connection.Query<Pessoa>(@sql, parametros).AsList();                
+                var aux = await connection.QueryAsync<Pessoa>(
+                    new CommandDefinition(@sql, parametros, cancellationToken: tokenCancel)
+                );
+
+                pessoas = aux.AsList();
             }
             
             return TratarPaginacao(filtro, pessoas, new PessoaPaginado());
