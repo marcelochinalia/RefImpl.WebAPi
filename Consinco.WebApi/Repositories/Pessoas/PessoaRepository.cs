@@ -157,11 +157,11 @@ namespace Consinco.WebApi.Repositories.Pessoas
 
             using (System.Data.IDbConnection connection = new OracleConnection(_connStr))
             {
-                var aux = await connection.QueryAsync<Pessoa>(
+                var result = await connection.QueryAsync<Pessoa>(
                     new CommandDefinition(@sql, parametros, cancellationToken: tokenCancel)
                 );
 
-                pessoas = aux.AsList();
+                pessoas = result.AsList();
             }
             
             return TratarPaginacao(filtro, pessoas, new PessoaPaginado());
