@@ -12,8 +12,7 @@ using System;
 using Dapper;
 
 namespace Consinco.WebApi.Repositories.Pessoas
-{
-    // O encapsulamento da implementação de paginação depende de você herdar a classe abstrata do Repositório
+{    
     public class PessoaRepository : PaginadorBase<PessoaFiltro, PessoaPaginado, Pessoa>, IPessoaRepository
     {
         private readonly string _connStr;
